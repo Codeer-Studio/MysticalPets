@@ -1,0 +1,4 @@
+name: MysticalPets
+version: '1.0-SNAPSHOT'
+main: io.github.CodeerStudio.mysticalPets.MysticalPets
+api-version: '1.21'
