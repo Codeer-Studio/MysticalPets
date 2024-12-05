@@ -4,7 +4,6 @@ import io.github.CodeerStudio.mysticalPets.MysticalPets;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Skull;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -18,15 +17,33 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Manages the creation, movement, and removal of pets for players.
+ * Pets are represented by ArmorStand entities with player heads.
+ */
 public class PetManager {
 
     private final MysticalPets mysticalPets;
     private Map<UUID, ArmorStand> pets = new HashMap<>();
 
+    /**
+     * Creates an instance of PetManager.
+     *
+     * @param mysticalPets The instance of MysticalPets plugin
+     */
     public PetManager(MysticalPets mysticalPets) {
         this.mysticalPets = mysticalPets;
     }
 
+    /**
+     * Summons a pet for the specified player.
+     * The pet is represented by an ArmorStand entity with the player's head on it.
+     * The pet follows the player to the left of them.
+     *
+     * @param player The player who wants to summon the pet
+     * @param petName The name of the pet
+     * @return true if the pet was summoned successfully, false otherwise
+     */
     public boolean summonPet(Player player, String petName) {
 
         // Calculate the location to the left of the player
@@ -45,6 +62,8 @@ public class PetManager {
         pet.setInvisible(true);
         pet.setSmall(true);
 
+
+        // Set the pet's helmet to be the player's head
         ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD,1);
         SkullMeta skullMeta = (SkullMeta) playerHead.getItemMeta();
         if (skullMeta != null) {
@@ -69,6 +88,13 @@ public class PetManager {
         return true;
     }
 
+    /**
+     * Dismisses (removes) the pet of the specified player.
+     *
+     * @param player   The player whose pet is to be dismissed
+     * @param petName  The name of the pet to dismiss
+     * @return true if the pet was dismissed successfully, false otherwise
+     */
     public boolean dismissPet(Player player, String petName) {
 
         ArmorStand pet = pets.get(player.getUniqueId());
@@ -80,17 +106,33 @@ public class PetManager {
         return true;
     }
 
+    /**
+     * Removes the pet of a player when they leave the game.
+     *
+     * @param player The player who is leaving
+     */
     public void playerLeavePet(Player player) {
         ArmorStand pet = pets.get(player.getUniqueId());
 
         dismissPet(player, pet.getCustomName());
     }
 
+    /**
+     * Removes all pets from all players.
+     * Typically used for cleanup.
+     */
     public void removeAllPets() {
         pets.clear();
     }
 
 
+    /**
+     * Moves the pet to follow the player at a smooth pace.
+     * The pet will always stick to the left side of the player.
+     *
+     * @param player The player whose pet is following
+     * @param pet    The ArmorStand representing the pet
+     */
     private void petMovement(Player player, ArmorStand pet) {
 
         pet.setMetadata("isPet", new FixedMetadataValue(mysticalPets, true));
