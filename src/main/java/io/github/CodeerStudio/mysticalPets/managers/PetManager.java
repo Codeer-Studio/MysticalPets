@@ -80,6 +80,13 @@ public class PetManager {
         return true;
     }
 
+    public void playerLeavePet(Player player) {
+        ArmorStand pet = pets.get(player.getUniqueId());
+
+        dismissPet(player, pet.getCustomName());
+    }
+
+
     private void petMovement(Player player, ArmorStand pet) {
 
         pet.setMetadata("isPet", new FixedMetadataValue(mysticalPets, true));
@@ -107,6 +114,5 @@ public class PetManager {
             pet.teleport(currentLocation);
 
         }, 0L, 1L);
-
     }
 }
