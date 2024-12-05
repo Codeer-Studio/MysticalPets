@@ -2,3 +2,9 @@ name: MysticalPets
 version: '1.0-SNAPSHOT'
 main: io.github.CodeerStudio.mysticalPets.MysticalPets
 api-version: '1.21'
+commands:
+  pet:
+    description: Manage your pets in the plugin.
+    usage: /pet <subcommand> [args]
+    aliases: [pets]
+
