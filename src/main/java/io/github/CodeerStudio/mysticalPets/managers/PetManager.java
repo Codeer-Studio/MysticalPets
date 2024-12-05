@@ -1,6 +1,7 @@
 package io.github.CodeerStudio.mysticalPets.managers;
 
 import io.github.CodeerStudio.mysticalPets.MysticalPets;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Skull;
@@ -38,7 +39,7 @@ public class PetManager {
         ArmorStand pet = (ArmorStand) player.getWorld().spawnEntity(spawnLocation, EntityType.ARMOR_STAND);
 
         // Configure the armor stand
-        pet.setCustomName(petName + " Pet");
+        pet.setCustomName(petName);
         pet.setCustomNameVisible(true);
         pet.setGravity(false);
         pet.setInvisible(true);
@@ -63,6 +64,8 @@ public class PetManager {
 
         pets.put(player.getUniqueId(), pet);
 
+        petMovement(player, pet);
+
         return true;
     }
 
@@ -75,5 +78,35 @@ public class PetManager {
         pets.remove(player.getUniqueId(), pet);
 
         return true;
+    }
+
+    private void petMovement(Player player, ArmorStand pet) {
+
+        pet.setMetadata("isPet", new FixedMetadataValue(mysticalPets, true));
+
+        Bukkit.getScheduler().runTaskTimer(mysticalPets, () -> {
+
+            // Calculate the new position for the pet to the player's side
+            Location playerLocation = player.getLocation();
+            Vector direction = playerLocation.getDirection();
+            Vector leftDirection = direction.clone().rotateAroundY(Math.toRadians(90)); // Rotate 90 degrees to the left
+            Location targetLocation = playerLocation.clone().add(leftDirection.multiply(1.5)); // Offset 1.5 blocks to the left
+            targetLocation.setY(playerLocation.getY() + 1); // Match the player's height + 1
+
+            // Smoothly move the pet by interpolating its position
+            Location currentLocation = pet.getLocation();
+            double speed = 0.2; // Adjust speed for smoother movement
+            double newX = currentLocation.getX() + (targetLocation.getX() - currentLocation.getX()) * speed;
+            double newY = currentLocation.getY() + (targetLocation.getY() - currentLocation.getY()) * speed;
+            double newZ = currentLocation.getZ() + (targetLocation.getZ() - currentLocation.getZ()) * speed;
+
+            // Set the new interpolated location
+            currentLocation.setX(newX);
+            currentLocation.setY(newY);
+            currentLocation.setZ(newZ);
+            pet.teleport(currentLocation);
+
+        }, 0L, 1L);
+
     }
 }
