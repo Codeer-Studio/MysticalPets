@@ -1,5 +1,6 @@
 package io.github.CodeerStudio.mysticalPets;
 
+import io.github.CodeerStudio.mysticalPets.commands.PetDismissCommand;
 import io.github.CodeerStudio.mysticalPets.commands.PetSummonCommand;
 import io.github.CodeerStudio.mysticalPets.listeners.PetInteractionListener;
 import io.github.CodeerStudio.mysticalPets.managers.PetCommandManager;
@@ -16,6 +17,7 @@ public final class MysticalPets extends JavaPlugin {
         PetManager petManager = new PetManager(this);
 
         petCommandManager.registerSubCommand("summon", new PetSummonCommand(petManager));
+        petCommandManager.registerSubCommand("dismiss", new PetDismissCommand(petManager));
 
         getCommand("pet").setExecutor(petCommandManager);
 
