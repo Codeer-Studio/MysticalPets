@@ -35,6 +35,6 @@ public class PlayerLeaveListener implements Listener {
         Player player = event.getPlayer();
 
         // Use PetManager to handle pet removal logic for the player
-        petManager.playerLeavePet(player);
+        petManager.dismissPet(player);
     }
 }

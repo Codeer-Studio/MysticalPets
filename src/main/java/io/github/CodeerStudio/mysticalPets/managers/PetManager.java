@@ -97,30 +97,16 @@ public class PetManager {
      * Dismisses (removes) the pet of the specified player.
      *
      * @param player   The player whose pet is to be dismissed
-     * @param petName  The name of the pet to dismiss
      * @return true if the pet was dismissed successfully, false otherwise
      */
-    public boolean dismissPet(Player player, String petName) {
-
-        ArmorStand pet = pets.get(player.getUniqueId());
-
-        pet.remove();
-
-        pets.remove(player.getUniqueId(), pet);
-
-        return true;
-    }
-
-    /**
-     * Removes the pet of a player when they leave the game.
-     *
-     * @param player The player who is leaving
-     */
-    public void playerLeavePet(Player player) {
+    public boolean dismissPet(Player player) {
         ArmorStand pet = pets.get(player.getUniqueId());
         if (pet != null) {
-            dismissPet(player, pet.getCustomName());
+            pet.remove();
+            pets.remove(player.getUniqueId(), pet);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -131,7 +117,6 @@ public class PetManager {
         for (ArmorStand pet : pets.values()) {
             pet.remove();  // Remove the pet (ArmorStand)
         }
-
         pets.clear();
     }
 
