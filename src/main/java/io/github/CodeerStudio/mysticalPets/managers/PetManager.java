@@ -169,6 +169,8 @@ public class PetManager {
             currentLocation.setZ(newZ);
             pet.teleport(currentLocation);
 
+            pet.setRotation(playerLocation.getYaw(), playerLocation.getPitch());
+
         }, 0L, 1L);
     }
 }
