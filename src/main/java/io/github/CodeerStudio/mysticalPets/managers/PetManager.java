@@ -1,9 +1,13 @@
 package io.github.CodeerStudio.mysticalPets.managers;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.Vector;
 
 public class PetManager {
@@ -21,11 +25,20 @@ public class PetManager {
         ArmorStand pet = (ArmorStand) player.getWorld().spawnEntity(spawnLocation, EntityType.ARMOR_STAND);
 
         // Configure the armor stand
-        pet.setCustomName(petName);
+        pet.setCustomName(petName + " pet");
         pet.setCustomNameVisible(true);
         pet.setGravity(false);
         pet.setInvisible(true);
         pet.setSmall(true);
+
+        ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD,1);
+        SkullMeta skullMeta = (SkullMeta) playerHead.getItemMeta();
+        if (skullMeta != null) {
+            skullMeta.setOwningPlayer(player);
+            playerHead.setItemMeta(skullMeta);
+        }
+
+        pet.getEquipment().setHelmet(playerHead);
 
         return true;
     }
