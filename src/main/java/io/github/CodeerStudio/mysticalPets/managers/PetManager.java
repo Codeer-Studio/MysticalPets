@@ -86,6 +86,10 @@ public class PetManager {
         dismissPet(player, pet.getCustomName());
     }
 
+    public void removeAllPets() {
+        pets.clear();
+    }
+
 
     private void petMovement(Player player, ArmorStand pet) {
 

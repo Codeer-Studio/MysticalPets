@@ -11,11 +11,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MysticalPets extends JavaPlugin {
 
+    PetManager petManager;
+
     @Override
     public void onEnable() {
 
         PetCommandManager petCommandManager = new PetCommandManager();
-        PetManager petManager = new PetManager(this);
+        petManager = new PetManager(this);
 
         petCommandManager.registerSubCommand("summon", new PetSummonCommand(petManager));
         petCommandManager.registerSubCommand("dismiss", new PetDismissCommand(petManager));
@@ -31,6 +33,7 @@ public final class MysticalPets extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        petManager.removeAllPets();
         getLogger().info("MysticalPets Disabled");
     }
 }
