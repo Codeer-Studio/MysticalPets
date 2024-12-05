@@ -49,13 +49,9 @@ public class PetSummonCommand implements PetSubCommand{
         }
 
         String petName = args[0];
-        boolean success = petManager.summonPet(player, petName);
+        String response = petManager.summonPet(player, petName);
 
-        if (success) {
-            player.sendMessage(ChatColor.GREEN + "Your pet " + petName + " has been summoned!");
-        } else {
-            player.sendMessage(ChatColor.RED + "Failed to summon pet. Make sure you own it!");
-        }
+        player.sendMessage(response);
 
         return true;
     }

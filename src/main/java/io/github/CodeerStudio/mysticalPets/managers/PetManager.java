@@ -2,6 +2,7 @@ package io.github.CodeerStudio.mysticalPets.managers;
 
 import io.github.CodeerStudio.mysticalPets.MysticalPets;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
@@ -24,7 +25,7 @@ import java.util.UUID;
 public class PetManager {
 
     private final MysticalPets mysticalPets;
-    private Map<UUID, ArmorStand> pets = new HashMap<>();
+    private final Map<UUID, ArmorStand> pets = new HashMap<>();
 
     /**
      * Creates an instance of PetManager.
@@ -44,7 +45,11 @@ public class PetManager {
      * @param petName The name of the pet
      * @return true if the pet was summoned successfully, false otherwise
      */
-    public boolean summonPet(Player player, String petName) {
+    public String summonPet(Player player, String petName) {
+
+        if (pets.get(player.getUniqueId()) != null) {
+            return ChatColor.RED + "A pet is already active, remove it to spawn a new one";
+        }
 
         // Calculate the location to the left of the player
         Location playerLocation = player.getLocation();
@@ -85,7 +90,7 @@ public class PetManager {
 
         petMovement(player, pet);
 
-        return true;
+        return ChatColor.GREEN + "Your " + pet.getCustomName() + " has spawned!";
     }
 
     /**
@@ -113,8 +118,9 @@ public class PetManager {
      */
     public void playerLeavePet(Player player) {
         ArmorStand pet = pets.get(player.getUniqueId());
-
-        dismissPet(player, pet.getCustomName());
+        if (pet != null) {
+            dismissPet(player, pet.getCustomName());
+        }
     }
 
     /**
@@ -122,6 +128,10 @@ public class PetManager {
      * Typically used for cleanup.
      */
     public void removeAllPets() {
+        for (ArmorStand pet : pets.values()) {
+            pet.remove();  // Remove the pet (ArmorStand)
+        }
+
         pets.clear();
     }
 
