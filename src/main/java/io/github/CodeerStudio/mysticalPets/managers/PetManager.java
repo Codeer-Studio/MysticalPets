@@ -1,16 +1,25 @@
 package io.github.CodeerStudio.mysticalPets.managers;
 
+import io.github.CodeerStudio.mysticalPets.MysticalPets;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 public class PetManager {
+
+    private final MysticalPets mysticalPets;
+
+    public PetManager(MysticalPets mysticalPets) {
+        this.mysticalPets = mysticalPets;
+    }
 
     public boolean summonPet(Player player, String petName) {
 
@@ -25,7 +34,7 @@ public class PetManager {
         ArmorStand pet = (ArmorStand) player.getWorld().spawnEntity(spawnLocation, EntityType.ARMOR_STAND);
 
         // Configure the armor stand
-        pet.setCustomName(petName + " pet");
+        pet.setCustomName(petName + " Pet");
         pet.setCustomNameVisible(true);
         pet.setGravity(false);
         pet.setInvisible(true);
@@ -39,6 +48,8 @@ public class PetManager {
         }
 
         pet.getEquipment().setHelmet(playerHead);
+
+        pet.addEquipmentLock(EquipmentSlot.HEAD, ArmorStand.LockType.REMOVING_OR_CHANGING);
 
         return true;
     }

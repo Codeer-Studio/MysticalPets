@@ -1,6 +1,7 @@
 package io.github.CodeerStudio.mysticalPets;
 
 import io.github.CodeerStudio.mysticalPets.commands.PetSummonCommand;
+import io.github.CodeerStudio.mysticalPets.listeners.PetInteractionListener;
 import io.github.CodeerStudio.mysticalPets.managers.PetCommandManager;
 import io.github.CodeerStudio.mysticalPets.managers.PetManager;
 import org.bukkit.Bukkit;
@@ -12,11 +13,13 @@ public final class MysticalPets extends JavaPlugin {
     public void onEnable() {
 
         PetCommandManager petCommandManager = new PetCommandManager();
-        PetManager petManager = new PetManager();
+        PetManager petManager = new PetManager(this);
 
         petCommandManager.registerSubCommand("summon", new PetSummonCommand(petManager));
 
         getCommand("pet").setExecutor(petCommandManager);
+
+        getServer().getPluginManager().registerEvents(new PetInteractionListener(), this);
 
         getLogger().info("MysticalPets Enabled");
 
