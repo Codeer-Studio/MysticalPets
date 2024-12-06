@@ -18,9 +18,9 @@ import java.io.IOException;
 public final class MysticalPets extends JavaPlugin {
 
     // Managers
-    PetManager petManager;
-    PetDefinitionManager petDefinitionManager;
-    PetCommandManager petCommandManager;
+    private PetManager petManager;
+    private PetDefinitionManager petDefinitionManager;
+    private PetCommandManager petCommandManager;
 
     // Config Files
     private File petsFile;
@@ -28,37 +28,27 @@ public final class MysticalPets extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
-        createPetsFile();
-
-        // Manager creations
-        petCommandManager = new PetCommandManager();
-        petManager = new PetManager(this);
-        petDefinitionManager = new PetDefinitionManager(this);
-
-        // Command creations
-        petCommandManager.registerSubCommand("summon", new PetSummonCommand(petManager, petDefinitionManager));
-        petCommandManager.registerSubCommand("dismiss", new PetDismissCommand(petManager));
-        getCommand("pet").setExecutor(petCommandManager);
-
-        // Listeners creations
-        getServer().getPluginManager().registerEvents(new PetInteractionListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(petManager), this);
+        setupConfigFiles();
+        initializeManagers();
+        registerCommands();
+        registerListeners();
 
         getLogger().info("MysticalPets Enabled");
-
     }
 
     @Override
     public void onDisable() {
-        petManager.removeAllPets();
+        if (petManager != null) {
+            petManager.removeAllPets();
+        }
+
         getLogger().info("MysticalPets Disabled");
     }
 
     /**
-     * Gets the pets.yml configuration.
+     * Retrieves the pets.yml configuration.
      *
-     * @return FileConfiguration object for pets.yml.
+     * @return The FileConfiguration object for pets.yml.
      */
     public FileConfiguration getPetsConfig() {
         if (petsConfig == null) {
@@ -68,10 +58,12 @@ public final class MysticalPets extends JavaPlugin {
     }
 
     /**
-     * Saves the pets.yml configuration.
+     * Saves the pets.yml configuration to disk.
      */
     public void savePetsConfig() {
-        if (petsConfig == null || petsFile == null) return;
+        if (petsConfig == null || petsFile == null) {
+            return;
+        }
         try {
             petsConfig.save(petsFile);
         } catch (IOException e) {
@@ -81,19 +73,39 @@ public final class MysticalPets extends JavaPlugin {
     }
 
     /**
-     * Creates the pets.yml file if it doesn't exist.
+     * Initializes the configuration files.
      */
-    private void createPetsFile() {
+    private void setupConfigFiles() {
         petsFile = new File(getDataFolder(), "pets.yml");
         if (!petsFile.exists()) {
-            try {
-                petsFile.getParentFile().mkdirs();
-                saveResource("pets.yml", false);
-            } catch (Exception e) {
-                getLogger().warning("Could not create pets.yml file!");
-                e.printStackTrace();
-            }
+            saveResource("pets.yml", false);
         }
         petsConfig = YamlConfiguration.loadConfiguration(petsFile);
+    }
+
+    /**
+     * Initializes the managers used in the plugin.
+     */
+    private void initializeManagers() {
+        petManager = new PetManager(this);
+        petDefinitionManager = new PetDefinitionManager(this);
+        petCommandManager = new PetCommandManager();
+    }
+
+    /**
+     * Registers the commands for the plugin.
+     */
+    private void registerCommands() {
+        petCommandManager.registerSubCommand("summon", new PetSummonCommand(petManager, petDefinitionManager));
+        petCommandManager.registerSubCommand("dismiss", new PetDismissCommand(petManager));
+        getCommand("pet").setExecutor(petCommandManager);
+    }
+
+    /**
+     * Registers the event listeners for the plugin.
+     */
+    private void registerListeners() {
+        getServer().getPluginManager().registerEvents(new PetInteractionListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(petManager), this);
     }
 }
