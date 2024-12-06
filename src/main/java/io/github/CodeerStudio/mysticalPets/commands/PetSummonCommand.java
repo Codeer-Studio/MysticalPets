@@ -1,5 +1,6 @@
 package io.github.CodeerStudio.mysticalPets.commands;
 
+import io.github.CodeerStudio.mysticalPets.managers.PetDefinitionManager;
 import io.github.CodeerStudio.mysticalPets.managers.PetManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 public class PetSummonCommand implements PetSubCommand{
 
     private final PetManager petManager;
+    private final PetDefinitionManager petDefinitionManager;
 
 
     /**
@@ -19,8 +21,9 @@ public class PetSummonCommand implements PetSubCommand{
      *
      * @param petManager the PetManager instance used to manage pets
      */
-    public PetSummonCommand(PetManager petManager) {
+    public PetSummonCommand(PetManager petManager, PetDefinitionManager petDefinitionManager) {
         this.petManager = petManager;
+        this.petDefinitionManager = petDefinitionManager;
     }
 
 
@@ -49,7 +52,7 @@ public class PetSummonCommand implements PetSubCommand{
         }
 
         String petName = args[0];
-        String response = petManager.summonPet(player, petName);
+        String response = petManager.summonPet(player, petDefinitionManager.getPetDefinition(petName));
 
         player.sendMessage(response);
 

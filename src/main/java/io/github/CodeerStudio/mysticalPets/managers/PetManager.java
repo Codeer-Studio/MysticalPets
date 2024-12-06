@@ -1,6 +1,8 @@
 package io.github.CodeerStudio.mysticalPets.managers;
 
 import io.github.CodeerStudio.mysticalPets.MysticalPets;
+import io.github.CodeerStudio.mysticalPets.data.PetDefinition;
+import io.github.CodeerStudio.mysticalPets.utils.CustomHeadUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -42,13 +44,17 @@ public class PetManager {
      * The pet follows the player to the left of them.
      *
      * @param player The player who wants to summon the pet
-     * @param petName The name of the pet
+     * @param petDefinition The name of the pet
      * @return true if the pet was summoned successfully, false otherwise
      */
-    public String summonPet(Player player, String petName) {
+    public String summonPet(Player player, PetDefinition petDefinition) {
 
         if (pets.get(player.getUniqueId()) != null) {
             return ChatColor.RED + "A pet is already active, remove it to spawn a new one";
+        }
+
+        if (petDefinition == null) {
+            return ChatColor.RED + "That pet doesn't exist";
         }
 
         // Calculate the location to the left of the player
@@ -61,22 +67,17 @@ public class PetManager {
         ArmorStand pet = (ArmorStand) player.getWorld().spawnEntity(spawnLocation, EntityType.ARMOR_STAND);
 
         // Configure the armor stand
-        pet.setCustomName(petName);
+        pet.setCustomName(petDefinition.getName());
         pet.setCustomNameVisible(true);
         pet.setGravity(false);
         pet.setInvisible(true);
         pet.setSmall(true);
 
 
-        // Set the pet's helmet to be the player's head
-        ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD,1);
-        SkullMeta skullMeta = (SkullMeta) playerHead.getItemMeta();
-        if (skullMeta != null) {
-            skullMeta.setOwningPlayer(player);
-            playerHead.setItemMeta(skullMeta);
-        }
+        // Set the pet's helmet to the custom head
+        ItemStack customHead = CustomHeadUtils.createCustomHeadFromURL(petDefinition.getHeadData());
 
-        pet.getEquipment().setHelmet(playerHead);
+        pet.getEquipment().setHelmet(customHead);
 
         pet.addEquipmentLock(EquipmentSlot.HEAD, ArmorStand.LockType.REMOVING_OR_CHANGING);
         pet.addEquipmentLock(EquipmentSlot.BODY, ArmorStand.LockType.ADDING);
