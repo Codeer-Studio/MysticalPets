@@ -108,10 +108,10 @@ public class PetManager {
 
         Bukkit.getScheduler().runTaskTimer(mysticalPets, () -> {
 
-            Location targetLocation = calculatePetLocation(player);
-
             // Smoothly move the pet by interpolating its position
+            Location targetLocation = calculatePetLocation(player);
             Location currentLocation = pet.getLocation();
+
             double speed = 0.2; // Adjust speed for smoother movement
             currentLocation.setX(lerp(currentLocation.getX(), targetLocation.getX(), speed));
             currentLocation.setY(lerp(currentLocation.getY(), targetLocation.getY(), speed));
@@ -132,10 +132,23 @@ public class PetManager {
     private Location calculatePetLocation(Player player) {
         Location playerLocation = player.getLocation();
         Vector direction = playerLocation.getDirection();
-        Vector leftDirection = direction.clone().rotateAroundY(Math.toRadians(90)); // Rotate 90 degrees to the left
-        playerLocation.add(leftDirection.multiply(1.5));
-        playerLocation.setY(playerLocation.getY() + 1);
-        return playerLocation;
+
+        // Remove the vertical component (Y axis) of the direction vector
+        direction.setY(0); // This ensures the pet moves horizontally only
+
+        // Normalize the direction vector to ensure the pet moves at a consistent speed
+        direction = direction.normalize();
+
+        // Rotate the direction 90 degrees to the left
+        Vector leftDirection = direction.clone().rotateAroundY(Math.toRadians(90));
+
+        // Calculate the target location for the pet to the left of the player (1.5 blocks away)
+        Location targetLocation = playerLocation.add(leftDirection.multiply(1.5));
+
+        // Ensure the pet's Y position matches the player's Y position + offset (e.g., above the player)
+        targetLocation.setY(playerLocation.getY() + 1);
+
+        return targetLocation;
     }
 
     /**
@@ -184,8 +197,8 @@ public class PetManager {
      * Performs linear interpolation between two values.
      *
      * @param start The starting value
-     * @param end   The ending value
-     * @param t     The interpolation factor (between 0 and 1)
+     * @param end The ending value
+     * @param t The interpolation factor (between 0 and 1)
      * @return The interpolated value
      */
     private double lerp(double start, double end, double t) {
