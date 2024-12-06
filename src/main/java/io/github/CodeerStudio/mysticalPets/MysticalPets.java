@@ -107,5 +107,6 @@ public final class MysticalPets extends JavaPlugin {
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new PetInteractionListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(petManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(petManager), this);
     }
 }
