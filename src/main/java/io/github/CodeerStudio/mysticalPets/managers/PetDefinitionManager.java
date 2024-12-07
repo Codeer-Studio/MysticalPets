@@ -14,6 +14,7 @@ import java.util.Map;
 public class PetDefinitionManager {
 
     private final MysticalPets mysticalPets;
+    private final ConfigManager configManager;
     private final Map<String, PetDefinition> petDefinitions = new HashMap<>();
 
     /**
@@ -21,9 +22,9 @@ public class PetDefinitionManager {
      *
      * @param mysticalPets The main plugin instance.
      */
-    public PetDefinitionManager(MysticalPets mysticalPets) {
+    public PetDefinitionManager(MysticalPets mysticalPets, ConfigManager configManager) {
+        this.configManager = configManager;
         this.mysticalPets = mysticalPets;
-        loadPetDefinitions();
     }
 
     /**
@@ -45,8 +46,11 @@ public class PetDefinitionManager {
         return Collections.unmodifiableMap(petDefinitions);
     }
 
+    /**
+     * Reloads the current pets stored in petDefinitions
+     */
     public void reloadDefinitions() {
-        mysticalPets.setupConfigFiles();
+        configManager.reloadConfig("pets.yml");
         petDefinitions.clear();
         loadPetDefinitions();
     }
@@ -56,7 +60,7 @@ public class PetDefinitionManager {
      * Logs warnings for any incomplete or invalid definitions.
      */
     private void loadPetDefinitions() {
-        ConfigurationSection petsSection = mysticalPets.getPetsConfig().getConfigurationSection("pets");
+        ConfigurationSection petsSection = configManager.getConfig("pets.yml").getConfigurationSection("pets");
 
         if (petsSection == null) {
             mysticalPets.getLogger().warning("No pets found in pets.yml! Ensure the file contains a 'pets' section.");
