@@ -17,5 +17,14 @@ public interface PetSubCommand {
      * @return true if the command was executed successfully, false otherwise
      */
     boolean execute(CommandSender sender, String[] args);
+
+    /**
+     * Gets the permission required to use this subcommand.
+     *
+     * @return The permission string, or null if no permission is required
+     */
+    default String getPermission() {
+        return null; // No permission required by default
+    }
 }
 

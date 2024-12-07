@@ -58,6 +58,12 @@ public class PetCommandManager implements CommandExecutor {
             return true;
         }
 
+        String requiredPermission = subCommand.getPermission();
+        if (requiredPermission != null && !commandSender.hasPermission(requiredPermission)) {
+            commandSender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
+            return true;
+        }
+
         // Execute the subcommand with the remaining arguments
         return subCommand.execute(commandSender, Arrays.copyOfRange(args, 1, args.length));
     }

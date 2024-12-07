@@ -1,5 +1,6 @@
 package io.github.CodeerStudio.mysticalPets;
 
+import io.github.CodeerStudio.mysticalPets.commands.AdminReloadCommand;
 import io.github.CodeerStudio.mysticalPets.commands.PetDismissCommand;
 import io.github.CodeerStudio.mysticalPets.commands.PetSummonCommand;
 import io.github.CodeerStudio.mysticalPets.listeners.PetInteractionListener;
@@ -99,6 +100,9 @@ public final class MysticalPets extends JavaPlugin {
     private void registerCommands() {
         petCommandManager.registerSubCommand("summon", new PetSummonCommand(petManager, petDefinitionManager));
         petCommandManager.registerSubCommand("dismiss", new PetDismissCommand(petManager));
+
+        petCommandManager.registerSubCommand("reload", new AdminReloadCommand(petManager, petDefinitionManager));
+
         getCommand("pet").setExecutor(petCommandManager);
     }
 

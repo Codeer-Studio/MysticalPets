@@ -45,11 +45,16 @@ public class PetDefinitionManager {
         return Collections.unmodifiableMap(petDefinitions);
     }
 
+    public void reloadDefinitions() {
+        loadPetDefinitions();
+    }
+
     /**
      * Loads all pet definitions from the pets.yml file into memory.
      * Logs warnings for any incomplete or invalid definitions.
      */
     private void loadPetDefinitions() {
+        petDefinitions.clear();
         ConfigurationSection petsSection = mysticalPets.getPetsConfig().getConfigurationSection("pets");
 
         if (petsSection == null) {
