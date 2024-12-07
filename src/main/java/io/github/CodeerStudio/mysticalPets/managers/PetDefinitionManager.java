@@ -46,6 +46,8 @@ public class PetDefinitionManager {
     }
 
     public void reloadDefinitions() {
+        mysticalPets.setupConfigFiles();
+        petDefinitions.clear();
         loadPetDefinitions();
     }
 
@@ -54,7 +56,6 @@ public class PetDefinitionManager {
      * Logs warnings for any incomplete or invalid definitions.
      */
     private void loadPetDefinitions() {
-        petDefinitions.clear();
         ConfigurationSection petsSection = mysticalPets.getPetsConfig().getConfigurationSection("pets");
 
         if (petsSection == null) {

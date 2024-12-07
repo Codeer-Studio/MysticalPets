@@ -44,6 +44,8 @@ public final class MysticalPets extends JavaPlugin {
             petManager.removeAllPets();
         }
 
+        savePetsConfig();
+
         getLogger().info("MysticalPets Disabled");
     }
 
@@ -64,6 +66,7 @@ public final class MysticalPets extends JavaPlugin {
      */
     public void savePetsConfig() {
         if (petsConfig == null || petsFile == null) {
+            getLogger().warning("petsConfig or petsFile is null!");
             return;
         }
         try {
@@ -77,7 +80,7 @@ public final class MysticalPets extends JavaPlugin {
     /**
      * Initializes the configuration files.
      */
-    private void setupConfigFiles() {
+    public void setupConfigFiles() {
         petsFile = new File(getDataFolder(), "pets.yml");
         if (!petsFile.exists()) {
             saveResource("pets.yml", false);

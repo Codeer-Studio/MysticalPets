@@ -7,9 +7,5 @@ commands:
     description: Manage your pets in the plugin.
     usage: /pet <subcommand> [args]
     aliases: [pets]
-  apet:
-    description: Manges pets admin commands.
-    usage: /apet <subcommand> [args]
-    aliases: [apets]
 
 
