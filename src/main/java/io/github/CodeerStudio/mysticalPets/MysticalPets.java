@@ -82,7 +82,7 @@ public final class MysticalPets extends JavaPlugin {
         petCommandManager.registerSubCommand("reload", new AdminReloadCommand(petManager, petDefinitionManager));
         petCommandManager.registerSubCommand("add", new AdminAddCommand(databaseManager));
         petCommandManager.registerSubCommand("remove", new AdminRemoveCommand(databaseManager));
-        petCommandManager.registerSubCommand("pet", new PetCommand(mainPetGUI));
+        petCommandManager.registerSubCommand("list", new PetCommand(mainPetGUI));
 
         getCommand("pet").setExecutor(petCommandManager);
     }
