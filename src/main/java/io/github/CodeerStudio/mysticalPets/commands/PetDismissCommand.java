@@ -47,6 +47,7 @@ public class PetDismissCommand implements PetSubCommand {
         }
 
         String petName = args[0];
+        petManager.dismissPet(player);
 
         return true;
     }
