@@ -47,13 +47,6 @@ public class PetDismissCommand implements PetSubCommand {
         }
 
         String petName = args[0];
-        boolean success = petManager.dismissPet(player);
-
-        if (success) {
-            player.sendMessage(ChatColor.GREEN + "Your pet " + petName + ChatColor.GREEN + " has been dismissed!");
-        } else {
-            player.sendMessage(ChatColor.RED + "Failed to dismiss pet. Make sure you own it and it exists!");
-        }
 
         return true;
     }

@@ -79,16 +79,15 @@ public class PetManager {
      * Dismisses (removes) the pet of the specified player.
      *
      * @param player The player whose pet is to be dismissed
-     * @return true if the pet was dismissed successfully, false otherwise
      */
-    public boolean dismissPet(Player player) {
+    public void dismissPet(Player player) {
         ArmorStand pet = pets.get(player.getUniqueId());
         if (pet != null) {
             pet.remove();
             pets.remove(player.getUniqueId(), pet);
-            return true;
+            player.sendMessage(ChatColor.GREEN + "Your pet " + pet.getCustomName() + ChatColor.GREEN + " has been dismissed!");
         }
-        return false;
+        player.sendMessage(ChatColor.RED + "Failed to dismiss pet. Make sure you own it and it exists!");
     }
 
     /**
