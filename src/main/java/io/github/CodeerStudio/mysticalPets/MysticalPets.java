@@ -6,10 +6,7 @@ import io.github.CodeerStudio.mysticalPets.commands.PetSummonCommand;
 import io.github.CodeerStudio.mysticalPets.listeners.PetInteractionListener;
 import io.github.CodeerStudio.mysticalPets.listeners.PlayerLeaveListener;
 import io.github.CodeerStudio.mysticalPets.listeners.PlayerWorldListener;
-import io.github.CodeerStudio.mysticalPets.managers.ConfigManager;
-import io.github.CodeerStudio.mysticalPets.managers.PetCommandManager;
-import io.github.CodeerStudio.mysticalPets.managers.PetDefinitionManager;
-import io.github.CodeerStudio.mysticalPets.managers.PetManager;
+import io.github.CodeerStudio.mysticalPets.managers.*;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,6 +18,7 @@ public final class MysticalPets extends JavaPlugin {
     private PetDefinitionManager petDefinitionManager;
     private PetCommandManager petCommandManager;
     private ConfigManager configManager;
+    private DatabaseManager databaseManager;
 
     @Override
     public void onEnable() {
@@ -30,6 +28,8 @@ public final class MysticalPets extends JavaPlugin {
         loadResourceFiles();
         registerCommands();
         registerListeners();
+
+        databaseManager.setupDatabase();
 
         getLogger().info("MysticalPets Enabled");
     }
@@ -54,6 +54,7 @@ public final class MysticalPets extends JavaPlugin {
         petManager = new PetManager(this);
         petDefinitionManager = new PetDefinitionManager(this, configManager);
         petCommandManager = new PetCommandManager();
+        databaseManager = new DatabaseManager();
     }
 
     /**
