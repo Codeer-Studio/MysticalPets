@@ -46,6 +46,7 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        closeConnection();
     }
 
     public void removePet(String playerUUID, String petID) {
@@ -58,6 +59,7 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        closeConnection();
     }
 
     public boolean ownsPet(String playerUUID, String petID) {
@@ -87,6 +89,7 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        closeConnection();
         return pets;
     }
 }

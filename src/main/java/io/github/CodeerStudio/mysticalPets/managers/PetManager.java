@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
+import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -25,6 +26,7 @@ import java.util.UUID;
 public class PetManager {
 
     private final MysticalPets mysticalPets;
+    private final DatabaseManager databaseManager;
     private final Map<UUID, ArmorStand> pets = new HashMap<>();
 
     /**
@@ -32,8 +34,9 @@ public class PetManager {
      *
      * @param mysticalPets The instance of MysticalPets plugin
      */
-    public PetManager(MysticalPets mysticalPets) {
+    public PetManager(MysticalPets mysticalPets, DatabaseManager databaseManager) {
         this.mysticalPets = mysticalPets;
+        this.databaseManager = databaseManager;
     }
 
     /**
@@ -46,6 +49,11 @@ public class PetManager {
      * @return A message indicating the success or failure of the command
      */
     public String summonPet(Player player, PetDefinition petDefinition) {
+
+        if (!databaseManager.ownsPet(String.valueOf(player.getUniqueId()), petDefinition.getId())) {
+            return  ChatColor.RED + "You don't own this pet";
+        }
+
 
         if (pets.containsKey(player.getUniqueId())) {
             return ChatColor.RED + "A pet is already active, remove it to spawn a new one";

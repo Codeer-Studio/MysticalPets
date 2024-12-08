@@ -44,6 +44,10 @@ public final class MysticalPets extends JavaPlugin {
             configManager.saveAllConfigs();
         }
 
+        if (databaseManager != null) {
+            databaseManager.closeConnection();
+        }
+
         getLogger().info("MysticalPets Disabled");
     }
 
@@ -51,10 +55,10 @@ public final class MysticalPets extends JavaPlugin {
      * Initializes the managers used in the plugin.
      */
     private void initializeManagers() {
-        petManager = new PetManager(this);
+        databaseManager = new DatabaseManager();
+        petManager = new PetManager(this, databaseManager);
         petDefinitionManager = new PetDefinitionManager(this, configManager);
         petCommandManager = new PetCommandManager();
-        databaseManager = new DatabaseManager();
     }
 
     /**
