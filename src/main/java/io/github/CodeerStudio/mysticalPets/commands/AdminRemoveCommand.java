@@ -7,16 +7,29 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * Handles the admin command to remove a pet from the player.
+ * Handles the admin command to remove a pet from a player.
+ * This command allows administrators to revoke a pet from a specified player.
  */
 public class AdminRemoveCommand implements PetSubCommand{
 
     private final DatabaseManager databaseManager;
 
+    /**
+     * Constructs the AdminRemoveCommand with the specified DatabaseManager.
+     *
+     * @param databaseManager the manager responsible for database operations.
+     */
     public AdminRemoveCommand(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
     }
 
+    /**
+     * Executes the command to remove a pet from a player.
+     *
+     * @param sender the entity executing the command (e.g., player or console).
+     * @param args the command arguments. Requires two arguments: player name and pet ID.
+     * @return true if the command executed successfully, false otherwise.
+     */
     @Override
     public boolean execute(CommandSender sender, String[] args) {
 
@@ -50,6 +63,11 @@ public class AdminRemoveCommand implements PetSubCommand{
         return true;
     }
 
+    /**
+     * Gets the permission required to execute this command.
+     *
+     * @return the permission string required for this command.
+     */
     @Override
     public String getPermission() {
         return "mysticalpets.admin.remove";
