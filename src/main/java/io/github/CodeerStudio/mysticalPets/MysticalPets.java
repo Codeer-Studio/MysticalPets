@@ -70,7 +70,7 @@ public final class MysticalPets extends JavaPlugin {
      * Initializes the gui menus for the plugin.
      */
     private void initializeGUI() {
-        mainPetGUI = new MainPetGUI(databaseManager, petManager);
+        mainPetGUI = new MainPetGUI(databaseManager, petManager, petDefinitionManager);
     }
 
     /**

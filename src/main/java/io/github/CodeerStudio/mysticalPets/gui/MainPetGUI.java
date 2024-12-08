@@ -1,7 +1,9 @@
 package io.github.CodeerStudio.mysticalPets.gui;
 
 import io.github.CodeerStudio.mysticalPets.managers.DatabaseManager;
+import io.github.CodeerStudio.mysticalPets.managers.PetDefinitionManager;
 import io.github.CodeerStudio.mysticalPets.managers.PetManager;
+import io.github.CodeerStudio.mysticalPets.utils.CustomHeadUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,6 +24,7 @@ public class MainPetGUI {
 
     private final DatabaseManager databaseManager;
     private final PetManager petManager;
+    private final PetDefinitionManager petDefinitionManager;
 
 
     /**
@@ -30,9 +33,10 @@ public class MainPetGUI {
      * @param databaseManager the database manager for querying owned pets.
      * @param petManager the pet manager for handling pet spawning.
      */
-    public MainPetGUI(DatabaseManager databaseManager, PetManager petManager) {
+    public MainPetGUI(DatabaseManager databaseManager, PetManager petManager, PetDefinitionManager petDefinitionManager) {
         this.databaseManager = databaseManager;
         this.petManager = petManager;
+        this.petDefinitionManager = petDefinitionManager;
     }
 
     public void openGUI(Player player) {
@@ -56,7 +60,7 @@ public class MainPetGUI {
     }
 
     private ItemStack createPetItem(String petId) {
-        ItemStack item = new ItemStack(Material.PLAYER_HEAD);
+        ItemStack item = CustomHeadUtils.createCustomHeadFromURL(petDefinitionManager.getPetDefinition(petId).getHeadData());
         ItemMeta meta = item.getItemMeta();
 
         if (meta != null) {
