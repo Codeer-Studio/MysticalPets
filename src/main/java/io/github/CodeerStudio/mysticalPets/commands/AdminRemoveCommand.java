@@ -50,6 +50,11 @@ public class AdminRemoveCommand implements PetSubCommand{
 
         String playerUUID = targetPlayer.getUniqueId().toString();
 
+        if (!databaseManager.ownsPet(playerUUID, petId)) {
+            sender.sendMessage(ChatColor.RED + "Player doesn't own this pet");
+            return true;
+        }
+
         // Remove the pet from the database
         try {
             databaseManager.removePet(playerUUID, petId);
