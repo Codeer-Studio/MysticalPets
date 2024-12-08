@@ -53,9 +53,6 @@ public class PetSummonCommand implements PetSubCommand{
 
         // Checks if the pet exists in the pets.yml file
         String petName = args[0];
-        String response = petManager.summonPet(player, petDefinitionManager.getPetDefinition(petName));
-
-        player.sendMessage(response);
 
         return true;
     }

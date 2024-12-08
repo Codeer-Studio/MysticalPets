@@ -46,21 +46,19 @@ public class PetManager {
      *
      * @param player       The player who wants to summon the pet
      * @param petDefinition The pet definition containing the name and head data
-     * @return A message indicating the success or failure of the command
      */
-    public String summonPet(Player player, PetDefinition petDefinition) {
+    public void summonPet(Player player, PetDefinition petDefinition) {
 
         if (!databaseManager.ownsPet(String.valueOf(player.getUniqueId()), petDefinition.getId())) {
-            return  ChatColor.RED + "You don't own this pet";
+            player.sendMessage(ChatColor.RED + "You don't own this pet");
         }
 
-
         if (pets.containsKey(player.getUniqueId())) {
-            return ChatColor.RED + "A pet is already active, remove it to spawn a new one";
+            player.sendMessage(ChatColor.RED + "A pet is already active, remove it to spawn a new one");
         }
 
         if (petDefinition == null) {
-            return ChatColor.RED + "That pet doesn't exist";
+            player.sendMessage(ChatColor.RED + "That pet doesn't exist");
         }
 
         // Calculate the location to the left of the player
@@ -74,7 +72,7 @@ public class PetManager {
         // Start moving the pet smoothly
         petMovement(player, pet);
 
-        return ChatColor.GREEN + "Your " + pet.getCustomName() + " has spawned!";
+        player.sendMessage(ChatColor.GREEN + "Your " + pet.getCustomName() + " has spawned!");
     }
 
     /**
