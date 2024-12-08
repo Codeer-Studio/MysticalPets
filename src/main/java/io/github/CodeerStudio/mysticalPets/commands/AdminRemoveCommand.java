@@ -6,6 +6,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * Handles the admin command to remove a pet from the player.
+ */
 public class AdminRemoveCommand implements PetSubCommand{
 
     private final DatabaseManager databaseManager;
@@ -18,7 +21,7 @@ public class AdminRemoveCommand implements PetSubCommand{
     public boolean execute(CommandSender sender, String[] args) {
 
         if (args.length < 2) {
-            sender.sendMessage(ChatColor.RED + "UsageL /pet remove <player_name> <pet_id>");
+            sender.sendMessage(ChatColor.RED + "Usage /pet remove <player_name> <pet_id>");
             return true;
         }
 
@@ -34,7 +37,7 @@ public class AdminRemoveCommand implements PetSubCommand{
 
         String playerUUID = targetPlayer.getUniqueId().toString();
 
-        // Remove the pet to the database
+        // Remove the pet from the database
         try {
             databaseManager.removePet(playerUUID, petId);
             sender.sendMessage(ChatColor.GREEN + "Successfully removed pet " + ChatColor.GOLD + petId +

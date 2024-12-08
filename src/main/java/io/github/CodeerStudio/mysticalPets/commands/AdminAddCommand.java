@@ -6,6 +6,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * Handles the admin command to add a pet to a player.
+ */
 public class AdminAddCommand implements PetSubCommand{
 
     private final DatabaseManager databaseManager;

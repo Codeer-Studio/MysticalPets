@@ -1,6 +1,8 @@
 package io.github.CodeerStudio.mysticalPets;
 
 import io.github.CodeerStudio.mysticalPets.commands.*;
+import io.github.CodeerStudio.mysticalPets.gui.MainPetGUI;
+import io.github.CodeerStudio.mysticalPets.listeners.GUIEventListener;
 import io.github.CodeerStudio.mysticalPets.listeners.PetInteractionListener;
 import io.github.CodeerStudio.mysticalPets.listeners.PlayerLeaveListener;
 import io.github.CodeerStudio.mysticalPets.listeners.PlayerWorldListener;
@@ -18,12 +20,17 @@ public final class MysticalPets extends JavaPlugin {
     private ConfigManager configManager;
     private DatabaseManager databaseManager;
 
+    // GUI
+    private MainPetGUI mainPetGUI;
+
+
     @Override
     public void onEnable() {
         configManager = new ConfigManager(this);
 
         initializeManagers();
         loadResourceFiles();
+        initializeGUI();
         registerCommands();
         registerListeners();
 
@@ -60,6 +67,13 @@ public final class MysticalPets extends JavaPlugin {
     }
 
     /**
+     * Initializes the gui menus for the plugin.
+     */
+    private void initializeGUI() {
+        mainPetGUI = new MainPetGUI(databaseManager, petManager);
+    }
+
+    /**
      * Registers the commands for the plugin.
      */
     private void registerCommands() {
@@ -68,6 +82,7 @@ public final class MysticalPets extends JavaPlugin {
         petCommandManager.registerSubCommand("reload", new AdminReloadCommand(petManager, petDefinitionManager));
         petCommandManager.registerSubCommand("add", new AdminAddCommand(databaseManager));
         petCommandManager.registerSubCommand("remove", new AdminRemoveCommand(databaseManager));
+        petCommandManager.registerSubCommand("pet", new PetCommand(mainPetGUI));
 
         getCommand("pet").setExecutor(petCommandManager);
     }
@@ -79,6 +94,7 @@ public final class MysticalPets extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PetInteractionListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(petManager), this);
         getServer().getPluginManager().registerEvents(new PlayerWorldListener(petManager), this);
+        getServer().getPluginManager().registerEvents(new GUIEventListener(mainPetGUI), this);
     }
 
     /**

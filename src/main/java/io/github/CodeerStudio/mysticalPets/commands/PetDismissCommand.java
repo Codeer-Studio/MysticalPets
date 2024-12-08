@@ -26,19 +26,19 @@ public class PetDismissCommand implements PetSubCommand {
      * Executes the "dismiss" subcommand.
      * Dismisses a pet for the player by name if the pet exists and belongs to the player.
      *
-     * @param commandSender the sender of the command, must be a player
+     * @param sender the sender of the command, must be a player
      * @param args the command arguments; expects the pet name as the first argument
      * @return true to indicate the command has been handled
      */
     @Override
-    public boolean execute(CommandSender commandSender, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
         // Check if the command sender is a player
-        if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(ChatColor.RED + "Only players can use this command.");
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(ChatColor.RED + "Only players can use this command.");
             return true;
         }
 
-        Player player = (Player) commandSender;
+        Player player = (Player) sender;
 
         // Ensure a pet name is provided
         if (args.length < 1) {
