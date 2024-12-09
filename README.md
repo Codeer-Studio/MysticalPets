@@ -1,7 +1,7 @@
 # MysticalPets
 
 **MysticalPets** is a Minecraft plugin that allows players to spawn and have pets follow them around
-https://www.spigotmc.org/resources/coinfilp.121138/
+https://www.spigotmc.org/resources/mysticalpets.121226/
 
 ---
 
