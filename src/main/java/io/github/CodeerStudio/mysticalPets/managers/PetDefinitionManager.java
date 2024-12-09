@@ -3,6 +3,7 @@ package io.github.CodeerStudio.mysticalPets.managers;
 import io.github.CodeerStudio.mysticalPets.MysticalPets;
 import io.github.CodeerStudio.mysticalPets.data.PetDefinition;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -60,7 +60,7 @@ public class MainPetGUI {
         }
 
         // Pagination logic: Display pets for the current page.
-        int petsPerPage = 36; // Slots available for pets
+        int petsPerPage = 21; // Slots available for pets
         int startIndex = page * petsPerPage;
         int endIndex = Math.min(startIndex + petsPerPage, ownedPets.size());
 
@@ -78,6 +78,11 @@ public class MainPetGUI {
             inventory.setItem(41, createNavigationItem(ChatColor.YELLOW + "Next", Material.ARROW));
         }
 
+        String activePet = petManager.getUserActivePet(player);
+        if (activePet != null) {
+            inventory.setItem(37, activePetItem(activePet));
+        }
+
         player.openInventory(inventory);
     }
 
@@ -93,6 +98,7 @@ public class MainPetGUI {
         event.setCancelled(true); // Prevent default interaction.
 
         int clickedSlot = event.getSlot();
+        ItemStack clickedItem = event.getCurrentItem();
 
         // Handle navigation clicks.
         if (clickedSlot == 39) { // Back arrow.
@@ -103,8 +109,12 @@ public class MainPetGUI {
             return;
         }
 
-        ItemStack clickedItem = event.getCurrentItem();
         if (clickedItem == null || !clickedItem.hasItemMeta() || clickedItem.getItemMeta().getDisplayName() == null) {
+            return;
+        }
+
+        if (clickedSlot == 37) {
+            petManager.dismissPet(player);
             return;
         }
 
@@ -173,6 +183,21 @@ public class MainPetGUI {
 
         if (meta != null) {
             meta.setDisplayName(name);
+            item.setItemMeta(meta);
+        }
+
+        return item;
+    }
+
+    private ItemStack activePetItem(String petId) {
+        ItemStack item = CustomHeadUtils.createCustomHeadFromURL(petDefinitionManager.getPetDefinition(petId).getHeadData());
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta != null) {
+            meta.setDisplayName(ChatColor.GOLD + "Pet: " + ChatColor.YELLOW + petId);
+            meta.setLore(List.of(
+                    ChatColor.GRAY + "Left-click to dismiss this pet."
+            ));
             item.setItemMeta(meta);
         }
 

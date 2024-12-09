@@ -28,6 +28,7 @@ public class PetManager {
     private final MysticalPets mysticalPets;
     private final DatabaseManager databaseManager;
     private final Map<UUID, ArmorStand> pets = new HashMap<>();
+    private final Map<UUID, String> activePets = new HashMap<>();
 
     /**
      * Creates an instance of PetManager.
@@ -71,6 +72,7 @@ public class PetManager {
         ArmorStand pet = spawnArmorStand(spawnLocation, petDefinition);
 
         pets.put(player.getUniqueId(), pet);
+        activePets.put(player.getUniqueId(), petDefinition.getId());
 
         // Start moving the pet smoothly
         petMovement(player, pet);
@@ -88,7 +90,9 @@ public class PetManager {
         if (pet != null) {
             pet.remove();
             pets.remove(player.getUniqueId(), pet);
+            activePets.remove(player.getUniqueId());
             player.sendMessage(ChatColor.GREEN + "Your pet " + pet.getCustomName() + ChatColor.GREEN + " has been dismissed!");
+            return;
         }
         player.sendMessage(ChatColor.RED + "Failed to dismiss pet. Make sure you own it and it exists!");
     }
@@ -101,6 +105,11 @@ public class PetManager {
             pet.remove(); // Remove the pet (ArmorStand)
         }
         pets.clear();
+        activePets.clear();
+    }
+
+    public String  getUserActivePet(Player player) {
+        return activePets.get(player.getUniqueId());
     }
 
     /**
