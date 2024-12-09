@@ -57,6 +57,8 @@ To get and find new head textures use this website: https://minecraft-heads.com
 Once you have found a head texture you'd like go to the bottom till you find the developers area. Then just copy the Minecraft URL
 ![image](https://github.com/user-attachments/assets/3771acb2-c496-4c32-9a14-2af731e1635a)
 
+![PetList](https://github.com/user-attachments/assets/b3aee9ce-4265-4ce3-b571-cc7650186c60)
+![2024-12-09_15 09 56](https://github.com/user-attachments/assets/1b2ebbf4-aecf-4da4-8f54-5412121920cc)
 
 ---
 
