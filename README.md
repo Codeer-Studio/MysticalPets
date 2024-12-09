@@ -48,8 +48,6 @@ To install **MysticalPets** on your Minecraft server, follow these simple steps:
 
 ---
 
-**Note:** Ensure that your server is running a compatible version of Minecraft. This plugin is tested on versions [list supported versions, e.g., 1.18.x, 1.19.x, etc.].
-
 ---
 
  
