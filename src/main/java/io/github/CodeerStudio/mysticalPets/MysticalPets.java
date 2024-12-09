@@ -1,5 +1,6 @@
 package io.github.CodeerStudio.mysticalPets;
 
+import io.github.CodeerStudio.mysticalPets.apis.MysticalPetsPlaceholderAPI;
 import io.github.CodeerStudio.mysticalPets.commands.*;
 import io.github.CodeerStudio.mysticalPets.gui.MainPetGUI;
 import io.github.CodeerStudio.mysticalPets.listeners.GUIEventListener;
@@ -8,6 +9,7 @@ import io.github.CodeerStudio.mysticalPets.listeners.PlayerLeaveListener;
 import io.github.CodeerStudio.mysticalPets.listeners.PlayerWorldListener;
 import io.github.CodeerStudio.mysticalPets.managers.*;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -35,6 +37,14 @@ public final class MysticalPets extends JavaPlugin {
         registerListeners();
 
         databaseManager.setupDatabase();
+
+        // Check if placeholderAPI is in the server
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new MysticalPetsPlaceholderAPI(databaseManager).register();
+            getLogger().info("PlaceholderAPI integration enabled.");
+        } else {
+            getLogger().warning("PlaceholderAPI not found. Placeholders will not be available.");
+        }
 
         getLogger().info("MysticalPets Enabled");
     }
