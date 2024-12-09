@@ -32,7 +32,7 @@ https://www.spigotmc.org/resources/coinfilp.121138/
 To install **MysticalPets** on your Minecraft server, follow these simple steps:
 
 1. **Download the Plugin**:
-   - Go to the [releases section](https://github.com/Codeer-Studio/CoinFlip/releases) of the repository.
+   - Go to the [releases section](https://github.com/Codeer-Studio/MysticalPets/releases) of the repository.
    - Download the latest `.jar` file.
   
 2. **Place in plugins folder**:
