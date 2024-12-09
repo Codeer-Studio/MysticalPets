@@ -51,6 +51,7 @@ public class AdminAddCommand implements PetSubCommand{
 
         String playerUUID = targetPlayer.getUniqueId().toString();
 
+        // Checks if the player owns the pet, if they do, return
         if (databaseManager.ownsPet(playerUUID, petId)) {
             sender.sendMessage(ChatColor.RED + "Player already owns this pet");
             return true;

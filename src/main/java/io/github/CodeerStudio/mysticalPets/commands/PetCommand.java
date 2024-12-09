@@ -22,7 +22,7 @@ public class PetCommand implements PetSubCommand {
         }
 
         Player player = (Player) sender;
-        mainPetGUI.openGUI(player);
+        mainPetGUI.openGUI(player, 0);
         return true;
     }
 

@@ -6,6 +6,7 @@ import io.github.CodeerStudio.mysticalPets.managers.PetManager;
 import io.github.CodeerStudio.mysticalPets.utils.CustomHeadUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -44,15 +45,36 @@ public class MainPetGUI {
      *
      * @param player the player for whom the GUI is being opened.
      */
-    public void openGUI(Player player) {
+    public void openGUI(Player player, int page) {
         List<String> ownedPets = databaseManager.getOwnedPets(String.valueOf(player.getUniqueId()));
 
-        int size = ((ownedPets.size() - 1) / 9 + 1) * 9; // Dynamic size based on the number of pets
-        Inventory inventory = Bukkit.createInventory(null, size, ChatColor.AQUA + "Your Pets");
+        int size = 54;
+        Inventory inventory = Bukkit.createInventory(null, size, ChatColor.AQUA + "Your Pets (Page " + (page + 1) + ")");
 
-        for (String petId : ownedPets) {
+        ItemStack borderItem = createBorderItem();
+        for (int i = 0; i < size; i++) {
+            if (isBorderSlot(i, size)) {
+                inventory.setItem(i, borderItem);
+            }
+        }
+
+        // Pagination logic: Display pets for the current page.
+        int petsPerPage = 36; // Slots available for pets
+        int startIndex = page * petsPerPage;
+        int endIndex = Math.min(startIndex + petsPerPage, ownedPets.size());
+
+        for (int i = startIndex; i < endIndex; i++) {
+            String petId = ownedPets.get(i);
             ItemStack petItem = createPetItem(petId);
             inventory.addItem(petItem);
+        }
+
+        // Add navigation arrows.
+        if (page > 0) {
+            inventory.setItem(39, createNavigationItem(ChatColor.YELLOW + "Back", Material.ARROW));
+        }
+        if (endIndex < ownedPets.size()) {
+            inventory.setItem(41, createNavigationItem(ChatColor.YELLOW + "Next", Material.ARROW));
         }
 
         player.openInventory(inventory);
@@ -64,10 +86,17 @@ public class MainPetGUI {
      *
      * @param event the inventory click event.
      */
-    public void handleInventoryClick(InventoryClickEvent event) {
-        if (!event.getView().getTitle().equals(ChatColor.AQUA + "Your Pets")) return;
+    public void handleInventoryClick(InventoryClickEvent event, Player player, int currentPage) {
+        if (!event.getView().getTitle().startsWith(ChatColor.AQUA + "Your Pets")) return;
 
-        event.setCancelled(true);
+        event.setCancelled(true); // Prevent default interaction.
+
+        // Handle navigation clicks.
+        if (event.getSlot() == 39) { // Back arrow.
+            openGUI(player, currentPage - 1);
+        } else if (event.getSlot() == 41) { // Next arrow.
+            openGUI(player, currentPage + 1);
+        }
     }
 
     /**
@@ -89,5 +118,56 @@ public class MainPetGUI {
         }
 
         return item;
+    }
+
+    /**
+     * Creates a decorative item for the border of the inventory.
+     *
+     * @return an ItemStack representing a black stained-glass pane.
+     */
+    private ItemStack createBorderItem() {
+        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta != null) {
+            meta.setDisplayName(" ");
+            item.setItemMeta(meta);
+        }
+
+        return item;
+    }
+
+    /**
+     * Creates an item for navigation (e.g., Back or Next).
+     *
+     * @param name     the display name of the navigation item.
+     * @param material the material to use for the navigation item.
+     * @return an ItemStack representing the navigation item.
+     */
+    private ItemStack createNavigationItem(String name, Material material) {
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta != null) {
+            meta.setDisplayName(name);
+            item.setItemMeta(meta);
+        }
+
+        return item;
+    }
+
+    /**
+     * Determines if a given slot index is part of the border.
+     *
+     * @param slot the slot index to check.
+     * @param size the total size of the inventory.
+     * @return true if the slot is a border slot, false otherwise.
+     */
+    private boolean isBorderSlot(int slot, int size) {
+        int rows = size / 9;
+        int row = slot / 9;
+        int col = slot % 9;
+
+        return row == 0 || row == rows - 1 || col == 0 || col == 8;
     }
 }
