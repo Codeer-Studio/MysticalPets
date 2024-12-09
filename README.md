@@ -3,6 +3,9 @@
 **MysticalPets** is a Minecraft plugin that allows players to spawn and have pets follow them around
 https://www.spigotmc.org/resources/mysticalpets.121226/
 
+## Soft Dependencies
+- `PlaceholderAPI` needed to use any placeholders
+
 ---
 
 ## 🚀 Features
@@ -26,6 +29,13 @@ https://www.spigotmc.org/resources/mysticalpets.121226/
 - `mysticalpets.admin.add` to use the `/pet add` command
 - `mysticalpets.admin.remove` to use the `/pet remove` command
 - `mysticalpets.admin.reload` to use the `/pet reload` command
+
+---
+
+## Placeholders
+- `%mysticalpets_owns_<petId>%` returns true or false if the player owns the pet
+
+---  
 
 ## 🛠️ Installation
 
