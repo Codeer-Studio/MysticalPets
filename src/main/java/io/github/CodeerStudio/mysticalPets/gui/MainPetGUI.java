@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -91,12 +92,34 @@ public class MainPetGUI {
 
         event.setCancelled(true); // Prevent default interaction.
 
+        int clickedSlot = event.getSlot();
+
         // Handle navigation clicks.
-        if (event.getSlot() == 39) { // Back arrow.
+        if (clickedSlot == 39) { // Back arrow.
             openGUI(player, currentPage - 1);
-        } else if (event.getSlot() == 41) { // Next arrow.
+            return;
+        } else if (clickedSlot == 41) { // Next arrow.
             openGUI(player, currentPage + 1);
+            return;
         }
+
+        ItemStack clickedItem = event.getCurrentItem();
+        if (clickedItem == null || !clickedItem.hasItemMeta() || clickedItem.getItemMeta().getDisplayName() == null) {
+            return;
+        }
+
+        String displayName = ChatColor.stripColor(clickedItem.getItemMeta().getDisplayName());
+        if (displayName.startsWith("Pet: ")) {
+            String petId = displayName.replace("Pet: ", "").trim();
+
+            try {
+                petManager.summonPet(player, petDefinitionManager.getPetDefinition(petId));
+            } catch (Exception e) {
+                player.sendMessage(ChatColor.RED + "Failed to spawn pet: " + ChatColor.GOLD + petId);
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**

@@ -51,14 +51,17 @@ public class PetManager {
 
         if (!databaseManager.ownsPet(String.valueOf(player.getUniqueId()), petDefinition.getId())) {
             player.sendMessage(ChatColor.RED + "You don't own this pet");
+            return;
         }
 
         if (pets.containsKey(player.getUniqueId())) {
             player.sendMessage(ChatColor.RED + "A pet is already active, remove it to spawn a new one");
+            return;
         }
 
         if (petDefinition == null) {
             player.sendMessage(ChatColor.RED + "That pet doesn't exist");
+            return;
         }
 
         // Calculate the location to the left of the player
