@@ -7,7 +7,7 @@ https://www.spigotmc.org/resources/coinfilp.121138/
 
 ## 🚀 Features
 - **Player Owned Pets**: Players can own a number of pets
-- **Easy Pet Creation**: Allows server owners to easly create pets
+- **Easy Pet Creation**: Allows server owners to easily create pets
 
 ---
 
@@ -36,7 +36,7 @@ To install **MysticalPets** on your Minecraft server, follow these simple steps:
    - Download the latest `.jar` file.
   
 2. **Place in plugins folder**:
-   - Place the `MysticalPets-1.21.1.jar` file into your server's plugins folder
+   - Place the `MysticalPets.jar` file into your server's plugins folder
 
 3. **Restart Your Server**:
    - Restart your Minecraft server to load the plugin.
