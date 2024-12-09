@@ -14,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -45,7 +44,7 @@ public class PetManager {
      * The pet is represented by an ArmorStand entity with the player's head on it.
      * The pet follows the player to the left of them.
      *
-     * @param player       The player who wants to summon the pet
+     * @param player The player who wants to summon the pet
      * @param petDefinition The pet definition containing the name and head data
      */
     public void summonPet(Player player, PetDefinition petDefinition) {
@@ -108,7 +107,13 @@ public class PetManager {
         activePets.clear();
     }
 
-    public String  getUserActivePet(Player player) {
+    /**
+     * Gets the active players pet
+     *
+     * @param player The player whose pet is to be checked
+     * @return The players active pet
+     */
+    public String getUserActivePet(Player player) {
         return activePets.get(player.getUniqueId());
     }
 
@@ -117,7 +122,7 @@ public class PetManager {
      * The pet will always stick to the left side of the player.
      *
      * @param player The player whose pet is following
-     * @param pet    The ArmorStand representing the pet
+     * @param pet The ArmorStand representing the pet
      */
     private void petMovement(Player player, ArmorStand pet) {
 
