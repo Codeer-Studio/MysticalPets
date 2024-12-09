@@ -18,7 +18,7 @@ https://www.spigotmc.org/resources/coinfilp.121138/
 - Use `/pet dismiss <player> <petId>` Despawns the pet
 - Use `/pet add <player> <petId>` To add a pet to a player
 - Use `/pet remove <player> <petId>` To remove a pet from the player
-- Use `/pet reload` To reload the pet.yml
+- Use `/pet reload` To reload the pets.yml
 
 ---
 
@@ -44,9 +44,19 @@ To install **MysticalPets** on your Minecraft server, follow these simple steps:
 
 4. **Verify Installation** (optional):
    - Run `/pet list` in-game to see if the plugin responds.
-
-
 ---
+
+## Pet Creation
+To create pets is very simple follow the format given in pets.yml
+
+Test is the id for the pet, every pet needs a unique id.
+name: is just the name of the pet in game
+head: is the link to the head texture that will be displayed.
+
+To get and find new head textures use this website: https://minecraft-heads.com
+Once you have found a head texture you'd like go to the bottom till you find the developers area. Then just copy the Minecraft URL
+![image](https://github.com/user-attachments/assets/3771acb2-c496-4c32-9a14-2af731e1635a)
+
 
 ---
 
