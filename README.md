@@ -2,7 +2,7 @@
 
 **MysticalPets** is a Minecraft plugin that allows players to spawn and have pets follow them around
 - Spigot - https://www.spigotmc.org/resources/mysticalpets.121226/
-- Modrinth - https://modrinth.com/plugin/mysticalpets/settings/description
+- Modrinth - https://modrinth.com/plugin/mysticalpets
 
 ## Soft Dependencies
 - `PlaceholderAPI` needed to use any placeholders
