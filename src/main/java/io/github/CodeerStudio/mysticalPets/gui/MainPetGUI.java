@@ -115,6 +115,7 @@ public class MainPetGUI {
 
         if (clickedSlot == 37) {
             petManager.dismissPet(player);
+            player.closeInventory();
             return;
         }
 
@@ -124,6 +125,7 @@ public class MainPetGUI {
 
             try {
                 petManager.summonPet(player, petDefinitionManager.getPetDefinition(petId));
+                player.closeInventory();
             } catch (Exception e) {
                 player.sendMessage(ChatColor.RED + "Failed to spawn pet: " + ChatColor.GOLD + petId);
                 e.printStackTrace();
